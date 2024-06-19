@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Mentee System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background-color: #1f1f1f;
+        }
+
+        nav {
+            background-color: rgba(31, 76, 90, 0.9);
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+            
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.2em;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            background-color: #fff;
+            color: rgba(31, 76, 90, 0.9);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            color: #fff;
+            background: linear-gradient(to bottom,  rgba(31, 76, 90, 0.9), rgba(0, 0, 0, 0.7));
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.8em;
+            line-height: 1.6;
+            max-width: 80%;
+            margin: 0 auto 30px;
+            color: #ddd;
+        }
+
+        .hero button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            color: rgba(31, 76, 90, 0.9);
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .hero button:hover {
+            background-color: rgba(31, 76, 90, 0.9);
+            color: #fff;
+        }
+
+        .hero-nav {
+            background-color: rgba(31, 76, 90, 0.9);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        .hero-nav p {
+            font-size: 1.2em;
+            margin: 0;
+            animation: scrollText 22s linear infinite;
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .character-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 1000;
+        }
+
+        .character {
+            width: 150px;
+            height: 150px;
+            background-image: url('sparkle.png'); /* Replace with your sparkle image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: sparkleMove 5s infinite alternate;
+        }
+
+        @keyframes sparkleMove {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0; }
+        }
+
+        .character p {
+            font-size: 1.5em;
+            color: rgba(31, 76, 90, 0.9);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Mentor Mentee System</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Our Mentor Mentee System</h1>
+            <p>Empowering mentorship for personal, professional, and academic growth.</p>
+            <button onclick="speakMessage('Welcome to  mentor mentee system and i will guide u if u have any doubt');">Get Started</button>
+        </div>
+    </div>
+
+    <div class="hero-nav">
+        <p>Empowering mentorship for personal, professional, and academic growth. Connect, access resources, and achieve your goals.</p>
+    </div>
+
+    <div class="character-container" id="characterContainer">
+        <div class="character" id="character">
+            <p>AI</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to speak a message using Speech Synthesis API
+        function speakMessage(message) {
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = message;
+            msg.volume = 1; // Volume: 0 to 1
+            msg.rate = 0.65; // Speed: 0.1 to 10
+            msg.pitch = 1; // Pitch: 0 to 2
+            msg.lang = 'en-US';
+            window.speechSynthesis.speak(msg);
+        }
+    
+        // Function to handle voice recognition
+        function setupVoiceRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+    
+            recognition.continuous = true; // Set continuous mode
+    
+            recognition.onstart = function() {
+                console.log('Voice recognition started');
+            }
+    
+            recognition.onresult = function(event) {
+                const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
+                console.log('Voice input:', transcript);
+    
+                if (transcript.includes('open registration') || transcript.includes('register')) {
+                    speakMessage("Opening registration.");
+                    window.location.href = 'register.html'; // Redirect to register page
+                } else if (transcript.includes('open login') || transcript.includes('login')) {
+                    window.location.href = 'login.html'; // Redirect to login page
+                } else if (transcript.includes('go to home page') || transcript.includes('return to home page')) {
+                    const currentLocation = window.location.pathname;
+                    if (currentLocation === '/') {
+                        speakMessage("You are already on the home page.");
+                    } else {
+                        const homeLink = document.querySelector('nav ul li a[href="/"]');
+                        if (homeLink) {
+                            speakMessage("Redirecting to home page.");
+                            homeLink.click();
+                        } else {
+                            console.log('Home link not found.');
+                        }
+                    }
+                } else {
+                    console.log('Command not recognized.');
+                }
+            }
+    
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+            }
+    
+            // Start voice recognition automatically when the page loads
+            window.addEventListener('load', function() {
+                recognition.start();
+            });
+    
+            // Stop recognition when the page unloads or is navigated away
+            window.addEventListener('unload', function() {
+                if (recognition) {
+                    recognition.stop();
+                }
+            });
+        }
+    
+        // Function to initiate voice recognition setup
+        setupVoiceRecognition();
+    </script>
+    
+</body>
+</html>
